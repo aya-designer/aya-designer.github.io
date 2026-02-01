@@ -121,7 +121,7 @@
 </head>
 <body>
 
-    <nav>
+    <nav style="display: none;">
         <a href="/aya-designer-profile.pdf" download class="btn-download">
             Download PDF
         </a>
@@ -132,7 +132,121 @@
             <img src="/images/aya-designer-profile_page-0001.jpg" alt="Page 1" onload="handleLoad(this)">
         </div>
     </div>
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-brand">
+            <h2>Aya Designer</h2>
+            <p>Creating digital experiences with precision and passion.</p>
+        </div>
+        
+        <div class="footer-contact">
+            <div class="contact-item">
+                <span class="label">Email</span>
+                <a href="mailto:ayahdesigner2026@gmail.com">ayahdesigner2026@gmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span class="label">Phone</span>
+                <a href="https://wa.me/966533376884">+966 53 337 6884</a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 Aya Designer. All rights reserved.</p>
+    </div>
+</footer>
 
+<style>
+    .footer {
+        background-color: #ffffff;
+        padding: 60px 5% 30px 5%;
+        border-top: 1px solid rgba(0,0,0,0.05);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-content {
+        width: 100%;
+        max-width: 1000px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        margin-bottom: 40px;
+    }
+
+    .footer-brand h2 {
+        font-size: 24px;
+        font-weight: 700;
+        margin: 0 0 12px 0;
+        letter-spacing: -0.5px;
+    }
+
+    .footer-brand p {
+        color: #6e6e73;
+        font-size: 15px;
+        line-height: 1.5;
+        max-width: 300px;
+    }
+
+    .footer-contact {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        justify-content: flex-start;
+    }
+
+    .contact-item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .contact-item .label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #86868b;
+        margin-bottom: 4px;
+    }
+
+    .contact-item a {
+        color: var(--accent-color);
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 500;
+        transition: opacity 0.2s ease;
+    }
+
+    .contact-item a:hover {
+        opacity: 0.6;
+    }
+
+    .footer-bottom {
+        width: 100%;
+        max-width: 1000px;
+        padding-top: 24px;
+        border-top: 1px solid #f2f2f2;
+        text-align: center;
+    }
+
+    .footer-bottom p {
+        color: #86868b;
+        font-size: 13px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .footer-content {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+        .footer-brand p {
+            margin: 0 auto;
+        }
+        .footer-contact {
+            align-items: center;
+        }
+    }
+</style>
     <script>
         const viewer = document.getElementById('viewer');
         const totalPages = 38;
