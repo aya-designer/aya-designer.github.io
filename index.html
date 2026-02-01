@@ -3,134 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aya Designer - Profile Viewer</title>
+    <title>Aya Designer Profile</title>
     <style>
         :root {
-            --viewer-bg: #525659;
-            --page-shadow: 0 0 10px rgba(0,0,0,0.3);
-            --header-height: 56px;
+            --viewer-bg: #f0f0f0;
+            --nav-bg: #ffffff;
+            --accent-color: #222222;
         }
 
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--viewer-bg);
-            overflow: hidden; /* Prevent double scrollbars */
+            font-family: -apple-system, system-ui, sans-serif;
         }
 
-        /* Top Bar Navigation */
-        header {
-            height: var(--header-height);
-            background-color: #323639;
-            color: white;
+        /* Minimal Centered Nav */
+        nav {
+            height: 70px;
+            background-color: var(--nav-bg);
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 24px;
+            justify-content: center; /* Centered the button */
             position: fixed;
             top: 0;
             width: 100%;
-            z-index: 100;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        .title {
-            font-size: 14px;
-            font-weight: 500;
+            z-index: 1000;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
         }
 
         .btn-download {
-            background-color: #1a73e8;
+            background-color: var(--accent-color);
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
+            padding: 12px 28px;
+            border-radius: 50px; /* Pill shape */
             cursor: pointer;
             font-weight: 500;
+            font-size: 15px;
             text-decoration: none;
-            transition: background-color 0.2s;
+            transition: all 0.2s ease;
         }
 
         .btn-download:hover {
-            background-color: #1557b0;
+            opacity: 0.85;
+            transform: translateY(-1px);
         }
 
-        /* Viewer Area */
-        #viewer-container {
-            height: calc(100vh - var(--header-height));
-            margin-top: var(--header-height);
-            overflow-y: auto;
+        /* Scroll Container */
+        #viewer {
+            padding-top: 90px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px 0;
-            scroll-behavior: smooth;
-        }
-
-        /* Individual "PDF" Pages */
-        .page-wrapper {
-            background-color: white;
-            box-shadow: var(--page-shadow);
-            margin-bottom: 20px;
-            width: 90%;
-            max-width: 1000px; /* Adjust based on preference */
-            line-height: 0; /* Removes white space at bottom of images */
-        }
-
-        .page-wrapper img {
             width: 100%;
-            height: auto; /* Maintains original aspect ratio */
+        }
+
+        /* PDF Page Styling */
+        .page {
+            background: white;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            width: 95%; /* Responsive mobile width */
+            max-width: 1100px; /* Limits desktop width */
+            line-height: 0;
+        }
+
+        .page img {
+            width: 100%;
+            height: auto; /* Maintains original ratio */
             display: block;
         }
 
-        /* Custom Scrollbar for that PDF-reader feel */
-        #viewer-container::-webkit-scrollbar {
-            width: 12px;
-        }
-        #viewer-container::-webkit-scrollbar-track {
-            background: #404447;
-        }
-        #viewer-container::-webkit-scrollbar-thumb {
-            background: #888;
-            border: 3px solid #404447;
-            border-radius: 10px;
+        @media (min-width: 768px) {
+            .page {
+                width: 80%; /* Slightly narrower on desktop for better focus */
+                margin-bottom: 30px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="title">aya-designer-profile.pdf</div>
+    <nav>
         <a href="/aya-designer-profile.pdf" download class="btn-download">
             Download PDF
         </a>
-    </header>
+    </nav>
 
-    <div id="viewer-container">
+    <div id="viewer">
+        <div class="page">
+            <img src="/images/aya-designer-profile_page-0001.jpg" alt="Page 1">
         </div>
+    </div>
 
     <script>
-        const container = document.getElementById('viewer-container');
+        const viewer = document.getElementById('viewer');
         const totalPages = 38;
-        const imageFolder = 'images';
 
-        for (let i = 1; i <= totalPages; i++) {
-            // Pads the number with leading zeros to match your naming (0001, 0002, etc.)
-            const pageNumber = i.toString().padStart(4, '0');
-            const imgPath = `${imageFolder}/aya-designer-profile_page-${pageNumber}.jpg`;
-
-            const wrapper = document.createElement('div');
-            wrapper.className = 'page-wrapper';
-
+        for (let i = 2; i <= totalPages; i++) {
+            const pageNum = i.toString().padStart(4, '0');
+            
+            const div = document.createElement('div');
+            div.className = 'page';
+            
             const img = document.createElement('img');
-            img.src = imgPath;
+            // Added the leading slash here as well
+            img.src = `/images/aya-designer-profile_page-${pageNum}.jpg`;
             img.alt = `Page ${i}`;
-            img.loading = "lazy"; // Better performance for many images
+            img.loading = "lazy";
 
-            wrapper.appendChild(img);
-            container.appendChild(wrapper);
+            div.appendChild(img);
+            viewer.appendChild(div);
         }
     </script>
 </body>
