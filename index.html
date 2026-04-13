@@ -1,14 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aya Designer Profile</title>
+    <title>آية | نماذج أعمال</title>
+    
+    <meta name="description" content="استعرض نماذج أعمال المصممة آية - متخصصون في بناء الهويات البصرية المتميزة وتصميم القصص البصرية التي تليق بمستقبل علامتكم التجارية.">
+    <meta property="og:title" content="مصممة الجرافيك آية | نماذج أعمال احترافية">
+    <meta property="og:description" content="نصنع للهوية قيمة وللعلامة التجارية أثراً يبقى. استعرض معرض الأعمال الآن.">
+    <meta property="og:image" content="/images/aya-designer-profile_page-0001.jpg">
+    <meta property="og:url" content="https://ayadesigner.com">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/png" href="images/logo.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
     <style>
         :root {
             --viewer-bg: #f5f5f7;
             --nav-bg: rgba(255, 255, 255, 0.8);
-            --accent-color: #000000;
+            --accent-color: #880d1e; 
+            --pink-gradient: linear-gradient(135deg, #880d1e 0%, #dd2d4a 100%);
+            --light-pink: #ffccd5;
             --skeleton-base: #e0e0e0;
             --skeleton-shimmer: #eeeeee;
         }
@@ -21,75 +35,117 @@
             scroll-behavior: smooth;
         }
 
-        /* Modern Glassmorphism Nav */
+        /* Nav */
         nav {
-            height: 64px;
-            background-color: var(--nav-bg);
-            backdrop-filter: blur(10px); /* Modern blur effect */
-            -webkit-backdrop-filter: blur(10px);
+            height: 70px;
+            background-color: white;
             display: flex;
             align-items: center;
-            justify-content: center;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
+            justify-content: space-between;
+            padding: 0 5%;
             border-bottom: 1px solid rgba(0,0,0,0.05);
+            direction: rtl;
         }
 
-        .btn-download {
-            background-color: var(--accent-color);
+        .nav-logo {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .btn-contact-nav {
+            background: var(--pink-gradient);
             color: white;
             border: none;
             padding: 10px 24px;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 14px;
-            text-decoration: none;
-            transition: all 0.2s ease;
+            transition: 0.3s ease;
         }
 
-        .btn-download:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        /* Hero Header RTL */
+        .hero-header {
+            padding: 110px 20px;
+            background: var(--pink-gradient);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            direction: rtl;
+        }
+
+        /* Background Shapes */
+        .hero-header::before, .hero-header::after {
+            content: "";
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .hero-header::before {
+            width: 250px;
+            height: 250px;
+            top: -70px;
+            right: -50px; /* Adjusted for RTL prominence */
+        }
+
+        .hero-header::after {
+            width: 180px;
+            height: 180px;
+            bottom: -40px;
+            left: 10%;
+            background: rgba(255, 182, 193, 0.12);
+        }
+
+        .hero-header h1, .hero-header p {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+
+        .hero-header p {
+            font-size: 1.4rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            font-weight: 300;
         }
 
         #viewer {
-            padding: 84px 0 40px 0;
+            padding: 40px 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 100%;
         }
 
-        /* Page Container & Loading State */
         .page {
             background: white;
             margin-bottom: 24px;
             width: 92%;
             max-width: 1000px;
-            min-height: 500px; /* Estimated height while loading */
+            min-height: 500px;
             position: relative;
             overflow: hidden;
             border-radius: 4px;
             box-shadow: 0 2px 15px rgba(0,0,0,0.04);
         }
 
-        /* The Shimmering Skeleton Effect */
         .page.loading::before {
             content: "";
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                var(--skeleton-base) 25%,
-                var(--skeleton-shimmer) 50%,
-                var(--skeleton-base) 75%
-            );
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-shimmer) 50%, var(--skeleton-base) 75%);
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite;
         }
@@ -103,180 +159,300 @@
             width: 100%;
             height: auto;
             display: block;
-            opacity: 0; /* Hidden initially */
+            opacity: 0;
             transition: opacity 0.5s ease-in-out;
             position: relative;
             z-index: 2;
         }
 
-        /* Revealed when loaded */
-        .page img.loaded {
-            opacity: 1;
+        .page img.loaded { opacity: 1; }
+
+        /* Floating Button */
+        #floatingContactBtn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1001;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            font-size: 24px;
+            transition: 0.3s;
         }
 
-        @media (min-width: 768px) {
-            .page { width: 85%; margin-bottom: 32px; }
+        /* Contact Popup */
+        .contact-popup {
+            display: none;
+            position: fixed;
+            bottom: 100px;
+            left: 30px;
+            width: 320px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            z-index: 1001;
+            border: 1px solid #f0f0f0;
+            overflow: hidden;
+        }
+
+        .popup-header {
+            background: var(--accent-color);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            direction: rtl;
+        }
+
+        .popup-body {
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            background: #fafafa;
+            font-family: inherit;
+            box-sizing: border-box;
+            text-align: right;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #ffffff;
+            padding: 60px 5% 30px 5%;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            direction: rtl;
+        }
+
+        .footer-content {
+            width: 100%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand h2 { font-size: 28px; color: var(--accent-color); margin: 0 0 15px 0; }
+        .footer-brand p { color: #6e6e73; line-height: 1.6; }
+
+        .footer-contact-info { display: flex; flex-direction: column; gap: 25px; margin-top: 20px; }
+        
+        /* Updated Footer Title Sizes */
+        .contact-item .label { 
+            font-size: 16px; /* Increased from 11px */
+            color: #86868b; 
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .contact-item a { color: var(--accent-color); text-decoration: none; font-size: 18px; font-weight: 500; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .footer-bottom {
+            width: 100%;
+            max-width: 1000px;
+            padding-top: 24px;
+            border-top: 1px solid #f2f2f2;
+            text-align: center;
+            color: #86868b;
+            font-size: 13px;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content { grid-template-columns: 1fr; text-align: center; }
+            .form-grid { grid-template-columns: 1fr; }
+            .hero-header h1 { font-size: 2.2rem; }
+            .hero-header p { font-size: 1.1rem; }
+            nav { width: 95%; padding: 0 10px; }
         }
     </style>
 </head>
 <body>
 
-    <nav style="display: none;">
-        <a href="/aya-designer-profile.pdf" download class="btn-download">
-            Download PDF
-        </a>
+    <nav>
+        <a href="#" class="nav-logo">Aya Designer</a>
+        <button class="btn-contact-nav" onclick="openContactBubble()">تواصل معنا</button>
     </nav>
 
+    <header class="hero-header">
+        <h1>نماذج أعمال المصممة آية</h1>
+        <p>نمنح هويتكم البصرية التميز الذي يجعلها رائدة في السوق</p>
+    </header>
+
     <div id="viewer">
-        <div class="page loading" id="page-1">
-            <img src="/images/aya-designer-profile_page-0001.jpg" alt="Page 1" onload="handleLoad(this)">
+        </div>
+
+    <div id="floatingContactBtn">
+        <i class="fa fa-envelope"></i>
+    </div>
+
+    <div id="chatBoxContainer" class="contact-popup">
+        <div class="popup-header">
+            <span>تواصل معي</span>
+            <button onclick="toggleChat()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">&times;</button>
+        </div>
+        <div class="popup-body">
+            <form class="ajax-contact-form">
+                <input type="text" name="entry.123456789" class="form-input" placeholder="الاسم الكريم" required>
+                <input type="email" name="entry.987654321" class="form-input" placeholder="البريد الإلكتروني" required>
+                <input type="text" name="entry.112233445" class="form-input" placeholder="رقم الجوال" required>
+                <textarea name="entry.556677889" class="form-input" placeholder="تفاصيل الطلب..." style="height: 100px;" required></textarea>
+                <button type="submit" class="btn-submit">أرسل الآن</button>
+            </form>
         </div>
     </div>
-<footer class="footer">
-    <div class="footer-content">
-        <div class="footer-brand">
-            <h2>Aya Designer</h2>
-            <p>Creating digital experiences with precision and passion.</p>
-        </div>
-        
-        <div class="footer-contact">
-            <div class="contact-item">
-                <span class="label">Email</span>
-                <a href="mailto:ayahprodesign@gmail.com">Ayahprodesign@gmail.com</a>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h2>آية ديزاينر</h2>
+                <p>نبتكر تجارب رقمية بشغف ودقة متناهية، لنصنع لشركتكم حضوراً بصرياً متميزاً يليق بطموحاتكم.</p>
+                <div class="footer-contact-info">
+                    <div class="contact-item">
+                        <span class="label">البريد الإلكتروني</span>
+                        <a href="mailto:ayahprodesign@gmail.com">Ayahprodesign@gmail.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <span class="label">واتساب</span>
+                        <a href="https://wa.me/966533376884" dir="ltr">+966 53 337 6884</a>
+                    </div>
+                </div>
             </div>
-            <div class="contact-item">
-                <span class="label">Whatsapp</span>
-                <a href="https://wa.me/966533376884">+966 53 337 6884</a>
+
+            <div class="footer-form-container">
+                <h3 style="margin-bottom: 20px;">ابدأ مشروعك الآن</h3>
+                <form class="ajax-contact-form footer-form">
+                    <div class="form-grid">
+                        <input type="text" name="entry.123456789" class="form-input" style="margin-bottom:0" placeholder="الاسم" required>
+                        <input type="email" name="entry.987654321" class="form-input" style="margin-bottom:0" placeholder="البريد" required>
+                        <input type="text" name="entry.112233445" class="form-input" style="margin-bottom:0" placeholder="الجوال" required>
+                    </div>
+                    <textarea name="entry.556677889" class="form-input" placeholder="أخبرني عن مشروعك..." style="height: 120px;" required></textarea>
+                    <button type="submit" class="btn-submit">أرسل الآن</button>
+                </form>
             </div>
         </div>
-    </div>
-    <div class="footer-bottom">
-        <p>&copy; 2026 Aya Designer. All rights reserved.</p>
-    </div>
-</footer>
+        <div class="footer-bottom">
+            <p>&copy; 2026 آية ديزاينر. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
 
-<style>
-    .footer {
-        background-color: #ffffff;
-        padding: 60px 5% 30px 5%;
-        border-top: 1px solid rgba(0,0,0,0.05);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .footer-content {
-        width: 100%;
-        max-width: 1000px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 40px;
-        margin-bottom: 40px;
-    }
-
-    .footer-brand h2 {
-        font-size: 24px;
-        font-weight: 700;
-        margin: 0 0 12px 0;
-        letter-spacing: -0.5px;
-    }
-
-    .footer-brand p {
-        color: #6e6e73;
-        font-size: 15px;
-        line-height: 1.5;
-        max-width: 300px;
-    }
-
-    .footer-contact {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        justify-content: flex-start;
-    }
-
-    .contact-item {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .contact-item .label {
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: #86868b;
-        margin-bottom: 4px;
-    }
-
-    .contact-item a {
-        color: var(--accent-color);
-        text-decoration: none;
-        font-size: 18px;
-        font-weight: 500;
-        transition: opacity 0.2s ease;
-    }
-
-    .contact-item a:hover {
-        opacity: 0.6;
-    }
-
-    .footer-bottom {
-        width: 100%;
-        max-width: 1000px;
-        padding-top: 24px;
-        border-top: 1px solid #f2f2f2;
-        text-align: center;
-    }
-
-    .footer-bottom p {
-        color: #86868b;
-        font-size: 13px;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-        .footer-content {
-            grid-template-columns: 1fr;
-            text-align: center;
-        }
-        .footer-brand p {
-            margin: 0 auto;
-        }
-        .footer-contact {
-            align-items: center;
-        }
-    }
-</style>
     <script>
-        const viewer = document.getElementById('viewer');
-        const totalPages = 38;
+        const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLScwzPZwvqek8YxYK7i7TKlTj22ILgg9OJZ9ZxPO-7-WByfv6w/formResponse";
 
-        // Function to handle the transition from loading to showing image
+        // Toggle Chat Popup
+        function toggleChat() {
+            const chatBox = document.getElementById('chatBoxContainer');
+            chatBox.style.display = (chatBox.style.display === 'none' || chatBox.style.display === '') ? 'block' : 'none';
+        }
+
+        // Navbar Contact Logic
+        function openContactBubble() {
+            const chatBox = document.getElementById('chatBoxContainer');
+            if (chatBox.style.display !== 'block') {
+                toggleChat();
+            }
+            chatBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        document.getElementById('floatingContactBtn').onclick = toggleChat;
+
+        // AJAX Form Submission
+        document.querySelectorAll('.ajax-contact-form').forEach(form => {
+            form.onsubmit = function(e) {
+                e.preventDefault();
+                if (!navigator.onLine) {
+                    alert("يرجى التأكد من اتصالك بالإنترنت.");
+                    return;
+                }
+
+                const btn = form.querySelector('button');
+                const originalText = btn.innerText;
+                btn.disabled = true;
+                btn.innerText = "جاري الإرسال...";
+
+                const formData = new FormData();
+                form.querySelectorAll('[name]').forEach(input => {
+                    formData.append(input.name, input.value);
+                });
+
+                fetch(googleFormUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: formData
+                })
+                .then(() => {
+                    btn.innerText = "تم الإرسال بنجاح!";
+                    form.reset();
+                    setTimeout(() => {
+                        btn.disabled = false;
+                        btn.innerText = originalText;
+                        if(form.closest('.contact-popup')) toggleChat();
+                    }, 3000);
+                })
+                .catch(() => {
+                    alert("حدث خطأ، حاول مرة أخرى.");
+                    btn.disabled = false;
+                    btn.innerText = originalText;
+                });
+            };
+        });
+
+        // Image Viewer Logic
         function handleLoad(img) {
             img.classList.add('loaded');
             img.parentElement.classList.remove('loading');
-            img.parentElement.style.minHeight = 'auto'; // Remove placeholder height
+            img.parentElement.style.minHeight = 'auto';
         }
 
-        // Generate the rest of the pages
+        const totalPages = 38;
         for (let i = 2; i <= totalPages; i++) {
             const pageNum = i.toString().padStart(4, '0');
-            
             const div = document.createElement('div');
             div.className = 'page loading';
-            
             const img = document.createElement('img');
             img.src = `/images/aya-designer-profile_page-${pageNum}.jpg`;
             img.alt = `Page ${i}`;
             img.loading = "lazy";
-            
-            // Set the onload handler
             img.onload = function() { handleLoad(this); };
-
             div.appendChild(img);
-            viewer.appendChild(div);
+            document.getElementById('viewer').appendChild(div);
         }
     </script>
 </body>
 </html>
-
