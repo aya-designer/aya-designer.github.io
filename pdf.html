@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aya Designer Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
     <style>
         :root {
             --viewer-bg: #f5f5f7;
@@ -21,11 +23,11 @@
             scroll-behavior: smooth;
         }
 
-        /* Modern Glassmorphism Nav */
+        /* Nav */
         nav {
             height: 64px;
             background-color: var(--nav-bg);
-            backdrop-filter: blur(10px); /* Modern blur effect */
+            backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
@@ -37,24 +39,6 @@
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
-        .btn-download {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 14px;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-
-        .btn-download:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
         #viewer {
             padding: 84px 0 40px 0;
             display: flex;
@@ -63,33 +47,23 @@
             width: 100%;
         }
 
-        /* Page Container & Loading State */
         .page {
             background: white;
             margin-bottom: 24px;
             width: 92%;
             max-width: 1000px;
-            min-height: 500px; /* Estimated height while loading */
+            min-height: 500px;
             position: relative;
             overflow: hidden;
             border-radius: 4px;
             box-shadow: 0 2px 15px rgba(0,0,0,0.04);
         }
 
-        /* The Shimmering Skeleton Effect */
         .page.loading::before {
             content: "";
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                var(--skeleton-base) 25%,
-                var(--skeleton-shimmer) 50%,
-                var(--skeleton-base) 75%
-            );
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-shimmer) 50%, var(--skeleton-base) 75%);
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite;
         }
@@ -103,28 +77,152 @@
             width: 100%;
             height: auto;
             display: block;
-            opacity: 0; /* Hidden initially */
+            opacity: 0;
             transition: opacity 0.5s ease-in-out;
             position: relative;
             z-index: 2;
         }
 
-        /* Revealed when loaded */
-        .page img.loaded {
-            opacity: 1;
+        .page img.loaded { opacity: 1; }
+
+        /* Floating Button */
+        #floatingContactBtn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1001;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            font-size: 24px;
+            transition: 0.3s;
         }
 
-        @media (min-width: 768px) {
-            .page { width: 85%; margin-bottom: 32px; }
+        /* Contact Popup */
+        .contact-popup {
+            display: none;
+            position: fixed;
+            bottom: 100px;
+            left: 30px;
+            width: 320px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            z-index: 1001;
+            border: 1px solid #f0f0f0;
+            overflow: hidden;
+        }
+
+        .popup-header {
+            background: var(--accent-color);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            direction: rtl;
+        }
+
+        .popup-body {
+            padding: 20px; /* ضمان وجود مسافات (Margins) داخلية للفورم */
+            direction: rtl;
+        }
+
+        .close-popup {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            background: #fafafa;
+            font-family: inherit;
+            box-sizing: border-box;
+            text-align: right;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #ffffff;
+            padding: 60px 5% 30px 5%;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            direction: rtl;
+        }
+
+        .footer-content {
+            width: 100%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand h2 { font-size: 28px; margin: 0 0 15px 0; }
+        .footer-brand p { color: #6e6e73; line-height: 1.6; }
+
+        .footer-contact-info { display: flex; flex-direction: column; gap: 20px; }
+        .contact-item .label { font-size: 11px; color: #86868b; text-transform: uppercase; }
+        .contact-item a { color: var(--accent-color); text-decoration: none; font-size: 18px; font-weight: 500; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .footer-bottom {
+            width: 100%;
+            max-width: 1000px;
+            padding-top: 24px;
+            border-top: 1px solid #f2f2f2;
+            text-align: center;
+            color: #86868b;
+            font-size: 13px;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content { grid-template-columns: 1fr; text-align: center; }
+            .form-grid { grid-template-columns: 1fr; }
+            .page { width: 85%; }
         }
     </style>
 </head>
 <body>
 
     <nav style="display: none;">
-        <a href="/aya-designer-profile.pdf" download class="btn-download">
-            Download PDF
-        </a>
+        <a href="/aya-designer-profile.pdf" download class="btn-download">Download PDF</a>
     </nav>
 
     <div id="viewer">
@@ -132,323 +230,132 @@
             <img src="/images/aya-designer-profile_page-0001.jpg" alt="Page 1" onload="handleLoad(this)">
         </div>
     </div>
-    <div id="floatingContactBtn" class="floating-btn">
-    <i class="fa fa-envelope"></i>
-</div>
 
-<div id="chatBoxContainer" class="contact-popup">
-    <div class="popup-header">
-        <span>تواصل معي</span>
-        <button onclick="toggleChat()" class="close-popup">&times;</button>
+    <div id="floatingContactBtn">
+        <i class="fa fa-envelope"></i>
     </div>
-    <div class="popup-body" dir="rtl">
-        <form class="ajax-contact-form">
-            <input type="text" name="entry.123456789" class="form-input" placeholder="الاسم الكريم" required>
-            <input type="email" name="entry.987654321" class="form-input" placeholder="البريد الإلكتروني" required>
-            <input type="text" name="entry.112233445" class="form-input" placeholder="رقم الجوال" required>
-            <textarea name="entry.556677889" class="form-input" placeholder="تفاصيل الطلب أو الاستفسار" style="height: 100px;" required></textarea>
-            <button type="submit" class="btn-submit">إرسال الآن</button>
-        </form>
-    </div>
-</div>
 
-<div class="footer-form-container" dir="rtl">
-    <h3 style="margin-bottom: 25px;">ابدأ مشروعك الآن</h3>
-    <form class="ajax-contact-form footer-form">
-        <div class="form-grid">
-            <input type="text" name="entry.123456789" placeholder="الاسم" required>
-            <input type="email" name="entry.987654321" placeholder="البريد الإلكتروني" required>
-            <input type="text" name="entry.112233445" placeholder="رقم الجوال" required>
+    <div id="chatBoxContainer" class="contact-popup">
+        <div class="popup-header">
+            <span>تواصل معي</span>
+            <button onclick="toggleChat()" class="close-popup">&times;</button>
         </div>
-        <textarea name="entry.556677889" placeholder="أخبرني عن مشروعك القادم..." required></textarea>
-        <button type="submit" class="btn-download" style="width: 100%; border-radius: 8px;">إرسال الطلب</button>
-    </form>
-</div>
-    <style>/* الزر العائم */
-#floatingContactBtn {
-    position: fixed;
-    bottom: 30px;
-    left: 30px; /* تم النقل لليسار ليناسب التصميم العربي */
-    width: 60px;
-    height: 60px;
-    background: var(--accent-color);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 1001;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    font-size: 20px;
-    transition: 0.3s;
-}
+        <div class="popup-body">
+            <form class="ajax-contact-form">
+                <input type="text" name="entry.123456789" class="form-input" placeholder="الاسم الكريم" required>
+                <input type="email" name="entry.987654321" class="form-input" placeholder="البريد الإلكتروني" required>
+                <input type="text" name="entry.112233445" class="form-input" placeholder="رقم الجوال" required>
+                <textarea name="entry.556677889" class="form-input" placeholder="تفاصيل الطلب..." style="height: 100px;" required></textarea>
+                <button type="submit" class="btn-submit">إرسال الآن</button>
+            </form>
+        </div>
+    </div>
 
-/* الصندوق المنبثق */
-.contact-popup {
-    display: none;
-    position: fixed;
-    bottom: 100px;
-    left: 30px;
-    width: 320px;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    z-index: 1001;
-    border: 1px solid #f0f0f0;
-}
-
-.popup-header {
-    background: var(--accent-color);
-    color: white;
-    padding: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: bold;
-    direction: rtl;
-}
-
-.form-input, .footer-form input, .footer-form textarea {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    background: #fafafa;
-    font-family: inherit;
-    box-sizing: border-box;
-    text-align: right;
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 15px;
-    margin-bottom: 15px;
-}
-
-.btn-submit {
-    width: 100%;
-    padding: 12px;
-    background: var(--accent-color);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-@media (max-width: 768px) {
-    .form-grid { grid-template-columns: 1fr; gap: 0; }
-    .footer-form-container { padding: 0 20px; }
-}</style>
-    <script>const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLScwzPZwvqek8YxYK7i7TKlTj22ILgg9OJZ9ZxPO-7-WByfv6w/formResponse";
-
-function toggleChat() {
-    const chatBox = document.getElementById('chatBoxContainer');
-    chatBox.style.display = (chatBox.style.display === 'none' || chatBox.style.display === '') ? 'block' : 'none';
-}
-
-document.getElementById('floatingContactBtn').onclick = toggleChat;
-
-document.querySelectorAll('.ajax-contact-form').forEach(form => {
-    form.onsubmit = function(e) {
-        e.preventDefault();
-
-        // فحص الاتصال بالإنترنت
-        if (!navigator.onLine) {
-            alert("عذراً، يبدو أنك لست متصلاً بالإنترنت. يرجى التحقق وإعادة المحاولة.");
-            return;
-        }
-
-        const btn = form.querySelector('button');
-        const originalText = btn.innerText;
-
-        // حالة جاري الإرسال
-        btn.disabled = true;
-        btn.innerText = "جاري الإرسال...";
-
-        const formData = new FormData();
-        // تأكد من مطابقة الـ Names مع الـ Entry IDs من نموذج جوجل
-        form.querySelectorAll('input, textarea').forEach(input => {
-            formData.append(input.name, input.value);
-        });
-
-        fetch(googleFormUrl, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: formData
-        })
-        .then(() => {
-            btn.innerText = "تم الإرسال بنجاح!";
-            btn.style.background = "#28a745";
-            form.reset();
-            
-            setTimeout(() => {
-                btn.disabled = false;
-                btn.innerText = originalText;
-                btn.style.background = "";
-                if(form.parentElement.classList.contains('popup-body')) toggleChat();
-            }, 3000);
-        })
-        .catch(err => {
-            alert("حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى.");
-            btn.disabled = false;
-            btn.innerText = originalText;
-        });
-    };
-});</script>
-<footer class="footer" dir="rtl">
-    <div class="footer-content">
-        <div class="footer-brand">
-            <h2>آية ديزاينر</h2>
-            <p>نبتكر تجارب رقمية بشغف ودقة متناهية.</p>
-            
-            <div class="footer-contact-info">
-                <div class="contact-item">
-                    <span class="label">البريد الإلكتروني</span>
-                    <a href="mailto:ayahprodesign@gmail.com">Ayahprodesign@gmail.com</a>
-                </div>
-                <div class="contact-item">
-                    <span class="label">واتساب</span>
-                    <a href="https://wa.me/966533376884" dir="ltr">+966 53 337 6884</a>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h2>آية ديزاينر</h2>
+                <p>نبتكر تجارب رقمية بشغف ودقة متناهية.</p>
+                <div class="footer-contact-info">
+                    <div class="contact-item">
+                        <span class="label">البريد الإلكتروني</span>
+                        <a href="mailto:ayahprodesign@gmail.com">Ayahprodesign@gmail.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <span class="label">واتساب</span>
+                        <a href="https://wa.me/966533376884" dir="ltr">+966 53 337 6884</a>
+                    </div>
                 </div>
             </div>
+
+            <div class="footer-form-container">
+                <h3 style="margin-bottom: 20px;">ابدأ مشروعك الآن</h3>
+                <form class="ajax-contact-form footer-form">
+                    <div class="form-grid">
+                        <input type="text" name="entry.123456789" class="form-input" placeholder="الاسم" required>
+                        <input type="email" name="entry.987654321" class="form-input" placeholder="البريد" required>
+                        <input type="text" name="entry.112233445" class="form-input" placeholder="الجوال" required>
+                    </div>
+                    <textarea name="entry.556677889" class="form-input" placeholder="أخبرني عن مشروعك..." required></textarea>
+                    <button type="submit" class="btn-submit">إرسال الطلب</button>
+                </form>
+            </div>
         </div>
-
-        <div class="footer-form-container">
-            <h3 style="margin-bottom: 20px; font-size: 20px;">ابدأ مشروعك الآن</h3>
-            <form class="ajax-contact-form footer-form">
-                <div class="form-grid">
-                    <input type="text" name="entry.123456789" placeholder="الاسم" required>
-                    <input type="email" name="entry.987654321" placeholder="البريد الإلكتروني" required>
-                    <input type="text" name="entry.112233445" placeholder="رقم الجوال" required>
-                </div>
-                <textarea name="entry.556677889" placeholder="أخبرني عن تفاصيل مشروعك..." required></textarea>
-                <button type="submit" class="btn-submit-footer">إرسال الطلب</button>
-            </form>
-            <p class="status-msg"></p>
+        <div class="footer-bottom">
+            <p>&copy; 2026 آية ديزاينر. جميع الحقوق محفوظة.</p>
         </div>
-    </div>
+    </footer>
 
-    <div class="footer-bottom">
-        <p>&copy; 2026 آية ديزاينر. جميع الحقوق محفوظة.</p>
-    </div>
-</footer>
-
-<style>
-    /* تحسينات إضافية للفوتر العربي */
-    .footer {
-        background-color: #ffffff;
-        padding: 60px 5% 30px 5%;
-        border-top: 1px solid rgba(0,0,0,0.05);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .footer-content {
-        width: 100%;
-        max-width: 1000px;
-        display: grid;
-        grid-template-columns: 1fr 1.5fr; /* توزيع المساحة للنموذج */
-        gap: 60px;
-        margin-bottom: 40px;
-    }
-
-    .footer-brand h2 {
-        font-size: 28px;
-        font-weight: 700;
-        margin: 0 0 15px 0;
-        letter-spacing: -0.5px;
-    }
-
-    .footer-brand p {
-        color: #6e6e73;
-        font-size: 16px;
-        line-height: 1.6;
-        margin-bottom: 30px;
-    }
-
-    .footer-contact-info {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .contact-item .label {
-        font-size: 11px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: #86868b;
-        display: block;
-        margin-bottom: 5px;
-    }
-
-    .contact-item a {
-        color: var(--accent-color);
-        text-decoration: none;
-        font-size: 18px;
-        font-weight: 500;
-    }
-
-    /* تنسيق النموذج داخل الفوتر */
-    .btn-submit-footer {
-        background-color: var(--accent-color);
-        color: white;
-        border: none;
-        padding: 12px 30px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 600;
-        width: 100%;
-        font-family: inherit;
-        transition: 0.3s;
-    }
-
-    .btn-submit-footer:disabled {
-        background-color: #ccc;
-    }
-
-    @media (max-width: 768px) {
-        .footer-content {
-            grid-template-columns: 1fr;
-            text-align: center;
-            gap: 40px;
-        }
-        .footer-brand p { margin: 0 auto 30px auto; }
-        .form-grid { grid-template-columns: 1fr; }
-    }
-</style>
     <script>
-        const viewer = document.getElementById('viewer');
-        const totalPages = 38;
+        const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLScwzPZwvqek8YxYK7i7TKlTj22ILgg9OJZ9ZxPO-7-WByfv6w/formResponse";
 
-        // Function to handle the transition from loading to showing image
+        // Handle Floating Button
+        function toggleChat() {
+            const chatBox = document.getElementById('chatBoxContainer');
+            chatBox.style.display = (chatBox.style.display === 'none' || chatBox.style.display === '') ? 'block' : 'none';
+        }
+        document.getElementById('floatingContactBtn').onclick = toggleChat;
+
+        // AJAX Form Submission
+        document.querySelectorAll('.ajax-contact-form').forEach(form => {
+            form.onsubmit = function(e) {
+                e.preventDefault();
+                if (!navigator.onLine) {
+                    alert("يرجى التأكد من اتصالك بالإنترنت.");
+                    return;
+                }
+
+                const btn = form.querySelector('button');
+                const originalText = btn.innerText;
+                btn.disabled = true;
+                btn.innerText = "جاري الإرسال...";
+
+                const formData = new FormData();
+                form.querySelectorAll('[name]').forEach(input => {
+                    formData.append(input.name, input.value);
+                });
+
+                fetch(googleFormUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: formData
+                })
+                .then(() => {
+                    btn.innerText = "تم الإرسال بنجاح!";
+                    form.reset();
+                    setTimeout(() => {
+                        btn.disabled = false;
+                        btn.innerText = originalText;
+                        if(form.closest('.contact-popup')) toggleChat();
+                    }, 3000);
+                })
+                .catch(() => {
+                    alert("حدث خطأ، حاول مرة أخرى.");
+                    btn.disabled = false;
+                    btn.innerText = originalText;
+                });
+            };
+        });
+
+        // Image Viewer Logic
         function handleLoad(img) {
             img.classList.add('loaded');
             img.parentElement.classList.remove('loading');
-            img.parentElement.style.minHeight = 'auto'; // Remove placeholder height
+            img.parentElement.style.minHeight = 'auto';
         }
 
-        // Generate the rest of the pages
+        const totalPages = 38;
         for (let i = 2; i <= totalPages; i++) {
             const pageNum = i.toString().padStart(4, '0');
-            
             const div = document.createElement('div');
             div.className = 'page loading';
-            
             const img = document.createElement('img');
             img.src = `/images/aya-designer-profile_page-${pageNum}.jpg`;
             img.alt = `Page ${i}`;
             img.loading = "lazy";
-            
-            // Set the onload handler
             img.onload = function() { handleLoad(this); };
-
             div.appendChild(img);
-            viewer.appendChild(div);
+            document.getElementById('viewer').appendChild(div);
         }
     </script>
 </body>
