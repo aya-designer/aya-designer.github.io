@@ -132,30 +132,213 @@
             <img src="/images/aya-designer-profile_page-0001.jpg" alt="Page 1" onload="handleLoad(this)">
         </div>
     </div>
-<footer class="footer">
+    <div id="floatingContactBtn" class="floating-btn">
+    <i class="fa fa-envelope"></i>
+</div>
+
+<div id="chatBoxContainer" class="contact-popup">
+    <div class="popup-header">
+        <span>تواصل معي</span>
+        <button onclick="toggleChat()" class="close-popup">&times;</button>
+    </div>
+    <div class="popup-body" dir="rtl">
+        <form class="ajax-contact-form">
+            <input type="text" name="entry.123456789" class="form-input" placeholder="الاسم الكريم" required>
+            <input type="email" name="entry.987654321" class="form-input" placeholder="البريد الإلكتروني" required>
+            <input type="text" name="entry.112233445" class="form-input" placeholder="رقم الجوال" required>
+            <textarea name="entry.556677889" class="form-input" placeholder="تفاصيل الطلب أو الاستفسار" style="height: 100px;" required></textarea>
+            <button type="submit" class="btn-submit">إرسال الآن</button>
+        </form>
+    </div>
+</div>
+
+<div class="footer-form-container" dir="rtl">
+    <h3 style="margin-bottom: 25px;">ابدأ مشروعك الآن</h3>
+    <form class="ajax-contact-form footer-form">
+        <div class="form-grid">
+            <input type="text" name="entry.123456789" placeholder="الاسم" required>
+            <input type="email" name="entry.987654321" placeholder="البريد الإلكتروني" required>
+            <input type="text" name="entry.112233445" placeholder="رقم الجوال" required>
+        </div>
+        <textarea name="entry.556677889" placeholder="أخبرني عن مشروعك القادم..." required></textarea>
+        <button type="submit" class="btn-download" style="width: 100%; border-radius: 8px;">إرسال الطلب</button>
+    </form>
+</div>
+    <style>/* الزر العائم */
+#floatingContactBtn {
+    position: fixed;
+    bottom: 30px;
+    left: 30px; /* تم النقل لليسار ليناسب التصميم العربي */
+    width: 60px;
+    height: 60px;
+    background: var(--accent-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1001;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    font-size: 20px;
+    transition: 0.3s;
+}
+
+/* الصندوق المنبثق */
+.contact-popup {
+    display: none;
+    position: fixed;
+    bottom: 100px;
+    left: 30px;
+    width: 320px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    z-index: 1001;
+    border: 1px solid #f0f0f0;
+}
+
+.popup-header {
+    background: var(--accent-color);
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    direction: rtl;
+}
+
+.form-input, .footer-form input, .footer-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background: #fafafa;
+    font-family: inherit;
+    box-sizing: border-box;
+    text-align: right;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .form-grid { grid-template-columns: 1fr; gap: 0; }
+    .footer-form-container { padding: 0 20px; }
+}</style>
+    <script>const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLScwzPZwvqek8YxYK7i7TKlTj22ILgg9OJZ9ZxPO-7-WByfv6w/formResponse";
+
+function toggleChat() {
+    const chatBox = document.getElementById('chatBoxContainer');
+    chatBox.style.display = (chatBox.style.display === 'none' || chatBox.style.display === '') ? 'block' : 'none';
+}
+
+document.getElementById('floatingContactBtn').onclick = toggleChat;
+
+document.querySelectorAll('.ajax-contact-form').forEach(form => {
+    form.onsubmit = function(e) {
+        e.preventDefault();
+
+        // فحص الاتصال بالإنترنت
+        if (!navigator.onLine) {
+            alert("عذراً، يبدو أنك لست متصلاً بالإنترنت. يرجى التحقق وإعادة المحاولة.");
+            return;
+        }
+
+        const btn = form.querySelector('button');
+        const originalText = btn.innerText;
+
+        // حالة جاري الإرسال
+        btn.disabled = true;
+        btn.innerText = "جاري الإرسال...";
+
+        const formData = new FormData();
+        // تأكد من مطابقة الـ Names مع الـ Entry IDs من نموذج جوجل
+        form.querySelectorAll('input, textarea').forEach(input => {
+            formData.append(input.name, input.value);
+        });
+
+        fetch(googleFormUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: formData
+        })
+        .then(() => {
+            btn.innerText = "تم الإرسال بنجاح!";
+            btn.style.background = "#28a745";
+            form.reset();
+            
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerText = originalText;
+                btn.style.background = "";
+                if(form.parentElement.classList.contains('popup-body')) toggleChat();
+            }, 3000);
+        })
+        .catch(err => {
+            alert("حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى.");
+            btn.disabled = false;
+            btn.innerText = originalText;
+        });
+    };
+});</script>
+<footer class="footer" dir="rtl">
     <div class="footer-content">
         <div class="footer-brand">
-            <h2>Aya Designer</h2>
-            <p>Creating digital experiences with precision and passion.</p>
+            <h2>آية ديزاينر</h2>
+            <p>نبتكر تجارب رقمية بشغف ودقة متناهية.</p>
+            
+            <div class="footer-contact-info">
+                <div class="contact-item">
+                    <span class="label">البريد الإلكتروني</span>
+                    <a href="mailto:ayahprodesign@gmail.com">Ayahprodesign@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <span class="label">واتساب</span>
+                    <a href="https://wa.me/966533376884" dir="ltr">+966 53 337 6884</a>
+                </div>
+            </div>
         </div>
-        
-        <div class="footer-contact">
-            <div class="contact-item">
-                <span class="label">Email</span>
-                <a href="mailto:ayahprodesign@gmail.com">Ayahprodesign@gmail.com</a>
-            </div>
-            <div class="contact-item">
-                <span class="label">Whatsapp</span>
-                <a href="https://wa.me/966533376884">+966 53 337 6884</a>
-            </div>
+
+        <div class="footer-form-container">
+            <h3 style="margin-bottom: 20px; font-size: 20px;">ابدأ مشروعك الآن</h3>
+            <form class="ajax-contact-form footer-form">
+                <div class="form-grid">
+                    <input type="text" name="entry.123456789" placeholder="الاسم" required>
+                    <input type="email" name="entry.987654321" placeholder="البريد الإلكتروني" required>
+                    <input type="text" name="entry.112233445" placeholder="رقم الجوال" required>
+                </div>
+                <textarea name="entry.556677889" placeholder="أخبرني عن تفاصيل مشروعك..." required></textarea>
+                <button type="submit" class="btn-submit-footer">إرسال الطلب</button>
+            </form>
+            <p class="status-msg"></p>
         </div>
     </div>
+
     <div class="footer-bottom">
-        <p>&copy; 2026 Aya Designer. All rights reserved.</p>
+        <p>&copy; 2026 آية ديزاينر. جميع الحقوق محفوظة.</p>
     </div>
 </footer>
 
 <style>
+    /* تحسينات إضافية للفوتر العربي */
     .footer {
         background-color: #ffffff;
         padding: 60px 5% 30px 5%;
@@ -169,43 +352,38 @@
         width: 100%;
         max-width: 1000px;
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 40px;
+        grid-template-columns: 1fr 1.5fr; /* توزيع المساحة للنموذج */
+        gap: 60px;
         margin-bottom: 40px;
     }
 
     .footer-brand h2 {
-        font-size: 24px;
+        font-size: 28px;
         font-weight: 700;
-        margin: 0 0 12px 0;
+        margin: 0 0 15px 0;
         letter-spacing: -0.5px;
     }
 
     .footer-brand p {
         color: #6e6e73;
-        font-size: 15px;
-        line-height: 1.5;
-        max-width: 300px;
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 30px;
     }
 
-    .footer-contact {
+    .footer-contact-info {
         display: flex;
         flex-direction: column;
         gap: 20px;
-        justify-content: flex-start;
-    }
-
-    .contact-item {
-        display: flex;
-        flex-direction: column;
     }
 
     .contact-item .label {
-        font-size: 12px;
+        font-size: 11px;
         text-transform: uppercase;
         letter-spacing: 1px;
         color: #86868b;
-        margin-bottom: 4px;
+        display: block;
+        margin-bottom: 5px;
     }
 
     .contact-item a {
@@ -213,38 +391,34 @@
         text-decoration: none;
         font-size: 18px;
         font-weight: 500;
-        transition: opacity 0.2s ease;
     }
 
-    .contact-item a:hover {
-        opacity: 0.6;
-    }
-
-    .footer-bottom {
+    /* تنسيق النموذج داخل الفوتر */
+    .btn-submit-footer {
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
         width: 100%;
-        max-width: 1000px;
-        padding-top: 24px;
-        border-top: 1px solid #f2f2f2;
-        text-align: center;
+        font-family: inherit;
+        transition: 0.3s;
     }
 
-    .footer-bottom p {
-        color: #86868b;
-        font-size: 13px;
+    .btn-submit-footer:disabled {
+        background-color: #ccc;
     }
 
-    /* Responsive adjustments */
     @media (max-width: 768px) {
         .footer-content {
             grid-template-columns: 1fr;
             text-align: center;
+            gap: 40px;
         }
-        .footer-brand p {
-            margin: 0 auto;
-        }
-        .footer-contact {
-            align-items: center;
-        }
+        .footer-brand p { margin: 0 auto 30px auto; }
+        .form-grid { grid-template-columns: 1fr; }
     }
 </style>
     <script>
